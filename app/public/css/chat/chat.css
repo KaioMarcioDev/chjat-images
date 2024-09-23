@@ -47,3 +47,35 @@ body {
 #messages > li:nth-child(odd) { 
     background: #efefef; 
 }
+#messages img{
+    max-width: 250px;
+    width: auto;
+    object-fit: contain;
+}
+button{
+    cursor: pointer;
+}
+
+.timestamp {
+    font-size: 0.9rem;
+    color: #1a003a;
+    margin-right: 10px;
+  }
+  
+  .message {
+    word-wrap: break-word;
+  }
+  
+  li {
+    margin-bottom: 10px;
+    list-style-type: none;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  input[type='file']{
+    display: none;
+  }

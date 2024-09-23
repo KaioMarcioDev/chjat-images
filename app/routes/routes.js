@@ -13,6 +13,8 @@ router.get('/', (req, res) => {
 router.get('/chat', (req, res) => {
   res.sendFile(path.join(__dirname, '../views/chat/chat.html'));
 });
-
+router.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, '../views/admin/admin.html'));
+});
 
 export default router;
