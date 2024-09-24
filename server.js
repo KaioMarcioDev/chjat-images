@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import {createServer} from 'http'
 import routes from './app/routes/routes.js';
 import {Server} from 'socket.io'
-import multer from 'multer'
+import {clearOldFiles} from './util/file-cleanner.js'
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -15,20 +15,8 @@ const PORT = process.env.PORT || 3000;
 const io = new Server(server)
 
 
-//configurar armazenamento de arquivo
-const storage = multer.diskStorage({
-  destination :(req,file,cb)=>{
-    cb(null,'uploads')
-  },
-  filename :(red,file,cb)=>{
-    cb(null, Date.now() + path.extname(file.originalname))
-  }
-
-})
-
-console.log(storage)
-
-const upload =multer ({storage:storage})
+const CLEANUP_INTERVAL = 60 * 60  * 1000
+setInterval(clearOldFiles, CLEANUP_INTERVAL)
 
 
 // Configurar o middleware para servir arquivos estáticos da pasta 'public'
@@ -39,16 +27,12 @@ app.use('/uploads', express.static("uploads"))
 app.use('/', routes);
 app.use('/chat',routes)
 app.use('/admin',routes)
+app.use('/upload',routes)
+
 
 let countClient = 0
 
-app.post('/upload', upload.single('image'), (req,res)=>{
-  if(req.file){
-    res.json({imageUrl : `/uploads/${req.file.filename}`})
-  }else{
-    res.status(400).json({error:"Nenhum arquivo enviado"})
-  }
-})
+
 
 io.on('connection',(socket)=>{
   const clientIp = socket.handshake.address
