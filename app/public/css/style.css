@@ -1,3 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+    scroll-behavior: smooth;
+}
 body{
-    background-color: aqua;
+   display: flex;
+   height: 100vh;
+   background: url('../img/bck-01.png');
+}
+
+.body-left{
+   flex:1;
+}
+.body-right{
+   flex: 2;
+   display: grid;
+   place-content: center;
+}
+
+input, label{
+    display: block;
 }
